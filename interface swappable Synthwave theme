@@ -1,0 +1,124 @@
+# Interface Vision (Synthwave / Retrowave Theme)
+
+Sidequest Mail should feel like a neon-soaked night drive — but work like Proton Mail.
+The chrome and gradients are the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Synthwave Concept        | Behavior                                                                 |
+|:-------------|:-------------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The Neon Grid            | Emails sit on the perspective grid. Unread emails pulse with magenta light. |
+|              |                          | Opening one "locks on" — the grid lines stabilize.                       |
+| **Folders**  | The Archives             | Each folder is a data crate. Navigating there shows: *"Archive Accessed."* |
+| **Sent**     | The Transmission         | You sent the signal. "Signal Lost" (in a good way) energy.               |
+| **Trash**    | The Void                 | Where data gets erased from the grid. Dragging an email there dissolves it. |
+|              |                          | Restoring it is "rewinding the tape."                                    |
+| **Drafts**   | The Studio               | Still being mixed. Waveforms scattered, half-formed beats.               |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                   | Flavor Text                              |
+|:-------------|:-------------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails | VHS static chirp sound                 |
+| **Spacebar**   | Open selected email      | *"Loading track..."*                     |
+| **Enter**      | Reply while reading      | *"Sending signal."*                      |
+| **Drag & Drop** | Move between folders     | Data cassette swap animation             |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept              | Description                                                                 |
+|:---------------|:---------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | The Dashboard        | Dark background with a glowing magenta grid. Fonts look like digital displays. |
+| **Email Cards** | Data Cassettes       | Each email is a sleek card with sender's name and subject. Unread cards glow. |
+| **Compose**    | The Mixing Board     | A dark editor with neon accents. Subject line = track title.                 |
+| **Stickers**   | VHS Glitches         | Inserting a sticker looks like a chromatic aberration effect or tape static. |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect       | Trigger Context                          |
+|:---------------|:---------------------|:-----------------------------------------|
+| Reading        | VHS click            | Like a tape deck engaging                |
+| Replying       | Synth blip           | Like a synthesizer note                  |
+| Deleting       | Static hiss          | Like tape erasure                        |
+| Searching      | Radar ping           | Like a sonar lock                        |
+| Composing      | Keyboard clack       | Like a mechanical typewriter             |
+| Loading        | Progress bar         | Fills like a fuel gauge                  |
+
+> All sounds default to **off**, toggleable in Settings → Audio.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a retro-futuristic aesthetic they love. | It feels cool and nostalgic.          |
+| **Non-Gamers**| See a stylish, modern UI.              | Different but still functional.         |
+
+> The neon glow is the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game/Show      | Why It Matters                                                        |
+|:---------------|:----------------------------------------------------------------------|
+| **OutRun**       | The definitive synthwave driving aesthetic.                          |
+| **Hotline Miami** | High-contrast neon violence and retro UI.                            |
+| **Stranger Things** | The 80s tech interface vibe (NOSY, etc).                         |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The synthwave metaphor stays *visual and occasional,* never *structural.*
+
+---
+
+## Why This Theme Works
+
+| Principle        | Reasoning                                                              |
+|:-----------------|:-----------------------------------------------------------------------|
+| **Nostalgia**    | Taps into the "retro" gaming crowd who grew up with 80s/90s tech.      |
+| **Privacy Vibe** | The "night drive" and "underground" aesthetic feels secretive and cool. |
+| **Distinctive**  | Very different from the other themes, giving users a strong aesthetic choice. |
+| **Gamer-Coded**  | Synthwave is a massive aesthetic in gaming (soundtracks, UIs, character designs). |
+
+---
+
+## Palette Grid
+
+| Role             | Hex Code   | Color Name                          |
+|:-----------------|:-----------|:------------------------------------|
+| **Background**   | `#1A0B2E`  | Deep Purple/Black                   |
+| **Primary Accent**| `#FF00FF` | Magenta                             |
+| **Secondary Accent**| `#00FFFF` | Cyan                              |
+| **Text**         | `#E0E0E0`  | Light Gray                          |
+| **Highlight**    | `#FF0080`  | Hot Pink                            |
+
+---
+
+## Sticker Pack Grid
+
+| Emoji Code   | Description              | Use Case                    |
+|:-------------|:-------------------------|:----------------------------|
+| `:sun:`      | Retro 80s sun            | Background / Approval       |
+| `:car:`      | Sports car silhouette    | Speed / Urgent mail         |
+| `:wave:`     | Grid wave                | General greeting            |
+| `:vhs:`      | VHS tape                 | Nostalgia / Old emails      |
+| `:disc:`     | Vinyl record             | Music / Creative replies    |
+| `:lightning:`| Neon lightning           | Power / Important alerts    |
+| `:city:`     | Neon city skyline        | "Good night" / Closing      |
