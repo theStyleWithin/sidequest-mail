@@ -1,0 +1,87 @@
+# Interface Vision (Minimalist UI Theme)
+
+Sidequest Mail should feel like a clean editor — but work like Proton Mail.
+The whitespace is the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Minimalist Concept   | Behavior                                                                 |
+|:-------------|:---------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The File Tree        | Emails are listed as files. Unread files are bold.                       |
+|              |                      | Opening one "opens" the file — the boldness fades.                       |
+| **Folders**  | The Project          | Each folder is a project. Navigating there shows: *"Project Opened."*    |
+| **Sent**     | The Commit           | You sent it. "Commit Pushed" energy.                                     |
+| **Trash**    | The Recycle Bin      | Where files get deleted. Dragging an email there deletes it.             |
+|              |                      | Restoring it is "Undo Delete."                                           |
+| **Drafts**   | The Sandbox          | Still being written. No syntax highlighting yet.                         |
+
+---
+
+## Navigation Grid
+
+| Key          | Action               | Flavor Text                              |
+|:-------------|:---------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails | No sound (silent mode default)   |
+| **Spacebar**   | Open selected email    | *"Open File"*                          |
+| **Enter**      | Reply while reading    | *"New Draft"*                          |
+| **Drag & Drop** | Move between folders   | File move animation                    |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept          | Description                                                                 |
+|:---------------|:-----------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | The Explorer     | Clean, gray background. Fonts are clean sans-serif (Inter, Roboto).          |
+| **Email Cards** | File Items     | Each email is a clean row with sender's name and subject. Unread rows are bold. |
+| **Compose**    | The Editor       | A clean, white canvas. Subject line = Title.                                 |
+| **Stickers**   | None             | Minimalist theme has no stickers. Or, tiny, flat icons.                      |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect   | Trigger Context                          |
+|:---------------|:-----------------|:-----------------------------------------|
+| Reading        | None             | Silent                                   |
+| Replying       | None             | Silent                                   |
+| Deleting       | None             | Silent                                   |
+| Searching      | None             | Silent                                   |
+| Composing      | None             | Silent                                   |
+| Loading        | Progress bar     | Thin, minimal line                       |
+
+> All sounds default to **off**.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a clean, efficient UI.             | It feels fast and professional.         |
+| **Non-Gamers**| See a modern, clean UI.                | Different but still functional.         |
+
+> The whitespace is the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game/Show      | Why It Matters                                                        |
+|:---------------|:----------------------------------------------------------------------|
+| **Vim**          | Clean, keyboard-driven interface.                                    |
+| **VS Code**      | Modern, developer-friendly UI.                                       |
+| **Apple iOS**    | Clean, minimalist design.                                            |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The minimalist metaphor stays *visual and occasional,* never *structural.*
