@@ -1,0 +1,21 @@
+hard rule: Do not bake this part into the client this is a step for later on down the road. and this may require testing.
+
+
+Authentication Configuration — You must configure the following DNS records and server settings, as missing or misconfigured records are the primary cause of rejection:
+
+SPF (Sender Policy Framework): A DNS TXT record listing the IP addresses authorized to send email for your domain.
+DKIM (DomainKeys Identified Mail): A cryptographic signature added to each message, with the public key published in DNS to verify integrity. 
+DMARC (Domain-based Message Authentication, Reporting, and Conformance): A policy that ties SPF and DKIM together, instructing receivers what to do if authentication fails (start with p=none to monitor, then move to p=reject). 
+PTR (Reverse DNS): A record that maps your server’s IP address back to your mail hostname, which must match the forward DNS record (FCrDNS). 
+TLS Encryption: Valid SSL/TLS certificates must be configured for all connections to ensure secure transport.
+Reputation and Infrastructure Management — Authentication alone does not guarantee deliverability; providers also weigh sender reputation heavily:
+
+Clean IP Address: Use a dedicated static IP with no history of spam or abuse. Avoid shared IP ranges often flagged by providers like Gmail for AWS or other cloud VPS networks.
+IP Warming: Gradually increase sending volume over weeks to build trust, rather than sending high volumes immediately.
+Blocklist Monitoring: Regularly check your IP and domain against major blocklists (e.g., Spamhaus) and ensure you are not listed. 
+Provider Tools: Register with Google Postmaster Tools and Microsoft SNDS to monitor your domain’s reputation and spam rates. 
+Verification Steps
+
+Use tools like Mail-Tester to score your configuration (aim for 10/10).
+Send test emails to major providers and check the headers (e.g., "Show Original" in Gmail) to confirm SPF, DKIM, and DMARC pass.
+Ensure your ISP or cloud provider allows outbound traffic on port 25, as blocking this port prevents direct email sending. 
