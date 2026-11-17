@@ -1,0 +1,125 @@
+# Interface Vision (Boba Tea / Kawaii Theme)
+
+Sidequest Mail should feel like a cozy cafe — but work like Proton Mail.
+The pastel colors are the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Boba Concept               | Behavior                                                                 |
+|:-------------|:---------------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The Menu Board             | Emails sit like cups on a shelf. Unread emails have a little "fresh" icon. |
+|              |                            | Reading one "sips" it — the icon fades slightly.                         |
+| **Folders**  | The Shelves                | Each folder is a labeled shelf. Navigating there shows: *"Shelf Restocked!"* |
+| **Sent**     | The Takeout Bag            | You sent it out. "Ready for Pickup" energy.                              |
+| **Trash**    | The Compost Bin            | Where leftovers go. Dragging an email there drops it gently.             |
+|              |                            | Restoring it is "rescuing the cup."                                      |
+| **Drafts**   | The Prep Station           | Still being made. Ingredients scattered, half-assembled.                 |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                     | Flavor Text                              |
+|:-------------|:---------------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails  | Soft chime or bell sound                 |
+| **Spacebar**   | Open selected email        | *"Pouring cup..."*                       |
+| **Enter**      | Reply while reading        | *"Sending order."*                       |
+| **Drag & Drop** | Move between folders       | Gently placing a cup on a shelf          |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept                | Description                                                                 |
+|:---------------|:-----------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | Cafe Decor             | Pastel background with tiny icons (hearts, stars, boba pearls). Fonts are rounded. |
+| **Email Cards** | Cups on the Shelf      | Each email is a rounded card with sender's name and subject. Unread cards have a glowing pearl. |
+| **Compose**    | The Recipe Card        | A clean, white space with cute borders. Subject line = drink name.           |
+| **Stickers**   | Toppings               | Inserting a sticker looks like adding pearls, jelly, or fruit.               |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect         | Trigger Context                          |
+|:---------------|:-----------------------|:-----------------------------------------|
+| Reading        | Soft pop               | Like a bubble bursting                   |
+| Replying       | Ding                   | Like a bell ringing                      |
+| Deleting       | Soft thud              | Like a cup landing on a tray             |
+| Searching      | Sparkle                | Like a magical search effect             |
+| Composing      | Gentle typing          | Like a soft keyboard click               |
+| Loading        | Progress bar           | Fills like a cup being poured            |
+
+> All sounds default to **off**, toggleable in Settings → Audio.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a cozy, kawaii aesthetic they love. | It feels safe and welcoming.            |
+| **Non-Gamers**| See a friendly, cute UI.               | Different but still functional.         |
+
+> The pastels are the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game/Show      | Why It Matters                                                        |
+|:---------------|:----------------------------------------------------------------------|
+| **Animal Crossing** | UIs that feel cozy, pastel, and stress-free.                        |
+| **Stardew Valley**  | Warm, inviting menus that feel like home.                           |
+| **Genshin Impact**  | Clean, beautiful interfaces with a "soft" aesthetic.                |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The boba metaphor stays *visual and occasional,* never *structural.*
+
+---
+
+## Why This Theme Works
+
+| Principle        | Reasoning                                                              |
+|:-----------------|:-----------------------------------------------------------------------|
+| **Anti-Anxiety** | Boba is inherently a "slow down" activity. It visually communicates "take your time." |
+| **Inclusive**    | Appeals to the huge segment of gamers who prefer cozy/casual games, not just FPS/RPGs. |
+| **Neutral**      | "Cute" is non-threatening. It removes any perceived aggression from the UI. |
+| **Gamer-Coded**  | "Kawaii" and "Boba" are massive subcultures within gaming (VTubers, cozy streamers, etc.). |
+
+---
+
+## Palette Grid
+
+| Role             | Hex Code   | Color Name                          |
+|:-----------------|:-----------|:------------------------------------|
+| **Background**   | `#FFF0F5`  | Lavender Blush                      |
+| **Alt Background**| `#F0F8FF` | Alice Blue                          |
+| **Primary Accent**| `#FFB6C1` | Light Pink                          |
+| **Secondary Accent**| `#E6E6FA` | Lavender                        |
+| **Text**         | `#4A4A4A`  | Soft Dark Gray (softer than black)  |
+| **Highlight**    | `#FFD700`  | Gold (for pearls / highlights)      |
+
+---
+
+## Sticker Pack Grid
+
+| Emoji Code   | Description              | Use Case                    |
+|:-------------|:-------------------------|:----------------------------|
+| `:boba:`     | Classic boba cup         | General approval            |
+| `:cat:`      | Cat paw holding a cup    | Friendly greeting           |
+| `:sparkle:`  | Magical sparkles         | Excitement / thanks         |
+| `:heart:`    | Pink heart               | Appreciation                |
+| `:star:`     | Gold star                | Highlighting important mail |
+| `:flower:`   | Cherry blossom           | Soft farewell               |
+| `:cloud:`    | Fluffy cloud             | "BRB" / going AFK           |
