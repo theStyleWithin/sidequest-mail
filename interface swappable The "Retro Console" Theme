@@ -1,0 +1,56 @@
+# Interface Vision (Retro Console Theme)
+
+Sidequest Mail should feel like an 8-bit menu — but work like Proton Mail.
+The pixel art is the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Console Concept        | Behavior                                                                 |
+|:-------------|:------------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The Level Select       | Emails are blocks on a grid. Unread blocks have a "NEW!" star.           |
+|              |                         | Opening one "selects" it — the star disappears.                          |
+| **Folders**  | The Save Files         | Each folder is a save slot. Navigating there shows: *"Load Game."*       |
+| **Sent**     | The High Score         | You sent it. "New High Score" energy.                                    |
+| **Trash**    | The Game Over          | Where data gets deleted. Dragging an email there triggers a "Game Over" screen. |
+|              |                         | Restoring it is "Continue?"                                              |
+| **Drafts**   | The Pause Screen       | Still being played. "Press Start to Continue."                           |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                 | Flavor Text                              |
+|:-------------|:-----------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails | 8-bit chime sound                  |
+| **Spacebar**   | Open selected email    | *"Start!"*                               |
+| **Enter**      | Reply while reading    | *"Press A to Jump."*                     |
+| **Drag & Drop** | Move between folders   | Block swap animation                   |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept            | Description                                                                 |
+|:---------------|:-------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | The D-Pad          | Looks like a Game Boy D-pad. Fonts are chunky pixel fonts.                   |
+| **Email Cards** | Game Blocks        | Each email is a block with sender's name and subject. Unread blocks glow.    |
+| **Compose**    | The Menu           | A retro menu screen. Subject line = Option 1.                                |
+| **Stickers**   | Power-Ups          | Inserting a sticker adds a power-up icon (Mushroom, Star, etc.).             |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect     | Trigger Context                          |
+|:---------------|:-------------------|:-----------------------------------------|
+| Reading        | 8-bit pop          | Like a menu selection                    |
+| Replying       | 8-bit ding         | Like a coin collection                   |
+| Deleting       | 8-bit crash        | Like a character falling                 |
+| Searching      | 8-bit scan         | Like a radar screen                      |
+| Composing      | 8-bit typing       | Like a keyboard input                    |
+| Loading        | Progress bar       | Fills like a health bar                  |
+
+> All sounds default to **off**, toggle
