@@ -1,0 +1,87 @@
+# Interface Vision (Terminal/Hacker Theme)
+
+Sidequest Mail should feel like a raw command line — but work like Proton Mail.
+The monospace fonts are the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Terminal Concept       | Behavior                                                                 |
+|:-------------|:-----------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The Command Line       | Emails are listed as text output. Unread emails have a blinking cursor.  |
+|              |                        | Opening one "executes" it — the cursor moves to the next line.           |
+| **Folders**  | The Directory          | Each folder is a directory path. Navigating there shows: `cd /sent`      |
+| **Sent**     | Output Log             | You sent the command. "Exit Code 0" energy.                              |
+| **Trash**    | /dev/null              | Where data gets deleted from the system. Dragging an email there erases it. |
+|              |                        | Restoring it is `grep`-ing it back from the void.                        |
+| **Drafts**   | The Buffer             | Still being typed. Cursor blinking, half-formed commands.                |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                 | Flavor Text                              |
+|:-------------|:-----------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails | Terminal beep sound                  |
+| **Spacebar**   | Open selected email    | `executing...`                           |
+| **Enter**      | Reply while reading    | `send -y`                                |
+| **Drag & Drop** | Move between folders   | `mv` command animation                   |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept            | Description                                                                 |
+|:---------------|:-------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | The Prompt         | Black background, green text. Looks like a bash prompt.                      |
+| **Email Cards** | Text Blocks        | Each email is a block of monospace text. Unread blocks have a `>` prefix.    |
+| **Compose**    | The Editor         | A raw text editor (like Vim/Nano). Subject line = `Subject:` header.         |
+| **Stickers**   | ASCII Art          | Inserting a sticker adds an ASCII art character (e.g., `(^_^)`).             |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect     | Trigger Context                          |
+|:---------------|:-------------------|:-----------------------------------------|
+| Reading        | Keyboard click     | Like typing a command                    |
+| Replying       | Beep               | Like a successful command execution      |
+| Deleting       | Static crackle     | Like file destruction                    |
+| Searching      | Scanning tone      | Like a grep process                      |
+| Composing      | Typing             | Like mechanical keyboard clacks          |
+| Loading        | Progress bar       | Fills like a percentage counter          |
+
+> All sounds default to **off**, toggleable in Settings → Audio.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a hacker aesthetic they love.      | It feels powerful and efficient.        |
+| **Non-Gamers**| See a clean, developer-friendly UI.    | Different but still functional.         |
+
+> The monospace font is the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game/Show      | Why It Matters                                                        |
+|:---------------|:----------------------------------------------------------------------|
+| **The Matrix**   | The definitive "green text on black" aesthetic.                      |
+| **Hackers**      | 90s hacker culture and CLI interfaces.                               |
+| **Deus Ex**      | Clean, functional, text-heavy UIs.                                   |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The terminal metaphor stays *visual and occasional,* never *structural.*
