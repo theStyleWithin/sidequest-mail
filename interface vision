@@ -1,0 +1,153 @@
+Layout ideas mapped to platformer levels:# Interface Vision# Interface Vision
+
+Sidequest Mail should feel like a retro platformer — but work like Proton Mail.
+The pixel art is the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Platformer Concept           | Behavior                                                                 |
+|:-------------|:-----------------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | Level 1: The Start           | Emails sit on platforms like blocks. Unread emails glow or pulse.        |
+|              |                              | Reading one "collects" it — it moves to the Read section.                |
+| **Folders**  | Checkpoints                  | Each folder is a checkpoint you teleport to.                             |
+|              |                              | Navigating there shows: *"Checkpoint accepted!"*                         |
+| **Sent**     | The Finish Line              | You reached the end. "Level Complete" energy.                            |
+| **Trash**    | The Pit                      | Where things fall. Dragging an email there drops it into the abyss.      |
+|              |                              | Restoring it is "grabbing it mid-fall."                                  |
+| **Drafts**   | The Build Area               | Still under construction. Incomplete bricks, half-formed structures.     |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                       | Flavor Text                              |
+|:-------------|:-----------------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails    | Subtle step sound effect (retro, pleasant) |
+| **Spacebar**   | Open selected email          | *"Jump to read."*                        |
+| **Enter**      | Reply while reading          | *"Press Enter to continue to the next level."* |
+| **Drag & Drop** | Move between folders         | Animate a tiny sprite walking across     |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept                | Description                                                                 |
+|:---------------|:-----------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | 16-bit Pixel Art UI    | A horizontal level map with tiny platform segments. Labels rendered in pixel font. |
+| **Email Cards** | Collectible Blocks     | Each email is a pixel block with sender's name and subject. Unread blocks glow. |
+| **Compose**    | The Builder            | A small area where you're placing blocks. Subject line = level title.        |
+| **Stickers**   | Power-ups              | Inserting a sticker looks like picking up a coin or power-up.                |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect         | Trigger Context                          |
+|:---------------|:-----------------------|:-----------------------------------------|
+| Reading        | Tiny pop               | Like collecting a coin                   |
+| Replying       | Ding                   | Like getting a new item                  |
+| Deleting       | Thud                   | Like dropping something into a pit       |
+| Searching      | Whoosh                 | Like entering a warp pipe                |
+| Composing      | Typing clicks          | Like placing blocks                      |
+| Loading        | Pixelated bar          | Fills like a health bar                  |
+
+> All sounds default to **off**, toggleable in Settings → Audio.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a world they recognize and enjoy.  | It feels made for them.                 |
+| **Non-Gamers**| See a clean, slightly playful UI.      | Different but still functional.         |
+
+> The pixel art is the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game         | Why It Matters                                                        |
+|:-------------|:----------------------------------------------------------------------|
+| **Shovel Knight** | Ships UIs that feel like games while staying fully functional.       |
+| **Celeste**       | Neither sacrifices usability for aesthetics. That's the bar.         |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The platformer metaphor stays *visual and occasional,* never *structural.*
+
+Sidequest Mail should feel like a retro platformer — but work like Proton Mail. The pixel art is the skin, not the mechanics. Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout ideas mapped to platformer levels
+
+| Screen | Platformer concept | Behavior |
+|---|---|---|
+| **Inbox** | Level 1: The Start | Emails sit on platforms like blocks. Unread emails glow or pulse. Reading one "collects" it — it moves to the Read section. |
+| **Folders / Labels** | Checkpoints | Each folder is a checkpoint you teleport to. Navigating there shows: *"Checkpoint accepted!"* |
+| **Sent** | The Finish Line | You reached the end. "Level Complete" energy. |
+| **Trash** | The Pit | Where things fall. Dragging an email there drops it into the abyss. Restoring it is "grabbing it mid-fall." |
+| **Drafts** | The Build Area | Still under construction. Incomplete bricks, half-formed structures. |
+
+---
+
+## Navigation mechanics
+
+- **Arrow keys** move focus between emails (already standard — lean into it). Highlighting an email triggers a subtle step sound effect, like Mario's footstep, but retro and pleasant.
+- **Spacebar** opens the selected email — *"jump to read."*
+- **Enter** while reading = reply. *"Press Enter to continue to the next level."*
+- **Drag-and-drop** between folders = moving a character from one platform to another. Animate a tiny sprite walking across.
+
+---
+
+## Visual design
+
+- **16-bit pixel art UI** — The sidebar isn't a boring list; it's a horizontal level map with tiny platform segments. Each segment has a label (Inbox, Sent, Trash) rendered in pixel font.
+- **Email cards = collectible blocks** — Each email is a pixel block with the sender's name and subject. Unread blocks glow. Read blocks flatten visually.
+- **Compose = The Builder** — A small area where you're placing blocks. The subject line is the title of your new level. The body is the building space.
+- **Stickers = Power-ups** — Inserting a sticker looks like picking up a coin or power-up. The picker is a "power-up wheel" you scroll through.
+
+---
+
+## Micro-interactions that sell the vibe
+
+| Action | Sound / Effect |
+|---|---|
+| Reading an email | Tiny pop, like collecting a coin |
+| Replying | Ding, like getting a new item |
+| Deleting | Thud, like dropping something into a pit |
+| Searching | Whoosh, like entering a warp pipe |
+| Composing | Typing clicks, like placing blocks |
+| Loading | Pixelated progress bar that fills like a health bar |
+
+> All sounds default to **off**, toggleable in Settings → Audio. Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Why this works for both audiences
+
+- **Gamers** see a world they recognize and enjoy. It feels made for them.
+- **Non-gamers** just see a clean, slightly playful UI that's different but still functional. The pixel art is the skin, not the mechanics. They don't need to understand the metaphor to use it.
+
+---
+
+## Design references to study
+
+**Shovel Knight** and **Celeste** both ship UIs that feel like games while staying fully functional. Neither sacrifices usability for aesthetics. That's the bar.
+
+---
+
+## The one rule
+
+**Don't overdo the gamification.** If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal. The platformer metaphor stays *visual and occasional,* never *structural.*
