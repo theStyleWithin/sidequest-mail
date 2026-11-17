@@ -1,0 +1,87 @@
+# Interface Vision (Fantasy RPG Theme)
+
+Sidequest Mail should feel like a tavern notice board — but work like Proton Mail.
+The parchment textures are the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | RPG Concept              | Behavior                                                                 |
+|:-------------|:-------------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The Notice Board         | Emails are pinned scrolls. Unread scrolls glow with a faint magic aura.  |
+|              |                          | Opening one "unrolls" it — the magic fades.                              |
+| **Folders**  | The Library              | Each folder is a bookshelf. Navigating there shows: *"Book Retrieved."*  |
+| **Sent**     | The Carrier Pigeon       | You sent the letter. "Pigeon Flown" energy.                              |
+| **Trash**    | The Bonfire              | Where old letters are burned. Dragging an email there burns it to ash.   |
+|              |                          | Restoring it is "rewriting the scroll."                                  |
+| **Drafts**   | The Scribe’s Desk        | Still being written. Ink spilled, quill resting.                         |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                   | Flavor Text                              |
+|:-------------|:-------------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails | Parchment rustle sound                 |
+| **Spacebar**   | Open selected email      | *"Unrolling scroll..."*                  |
+| **Enter**      | Reply while reading      | *"Drafting reply."*                      |
+| **Drag & Drop** | Move between folders     | Pinning a new scroll animation           |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept              | Description                                                                 |
+|:---------------|:---------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | The Map              | Looks like an old map with parchment textures. Fonts look like hand-written script. |
+| **Email Cards** | Scrolls              | Each email is a scroll with wax seal. Unread scrolls have a glowing seal.  |
+| **Compose**    | The Scribe’s Desk    | A parchment background with inkwell accents. Subject line = Letter Title.  |
+| **Stickers**   | Runes & Symbols      | Inserting a sticker adds a magical rune or symbol.                         |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect       | Trigger Context                          |
+|:---------------|:---------------------|:-----------------------------------------|
+| Reading        | Parchment rustle     | Like unrolling a scroll                  |
+| Replying       | Quill scratch        | Like writing on parchment                |
+| Deleting       | Fire crackle         | Like burning a letter                    |
+| Searching      | Magic chime          | Like a spell being cast                  |
+| Composing      | Quill scratch        | Like writing on parchment                |
+| Loading        | Progress bar         | Fills like a mana bar                    |
+
+> All sounds default to **off**, toggleable in Settings → Audio.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a fantasy aesthetic they love.     | It feels immersive and nostalgic.       |
+| **Non-Gamers**| See a warm, old-world UI.              | Different but still functional.         |
+
+> The parchment texture is the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game/Show      | Why It Matters                                                        |
+|:---------------|:----------------------------------------------------------------------|
+| **World of Warcraft** | Classic fantasy UI and parchment textures.                   |
+| **Final Fantasy**     | Elegant, fantasy-inspired interfaces.                      |
+| **Dungeons & Dragons** | TTRPG aesthetic and lore.                                |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The fantasy metaphor stays *visual and occasional,* never *structural.*
