@@ -1,0 +1,87 @@
+# Interface Vision (Cyberpunk Theme)
+
+Sidequest Mail should feel like a cyberpunk operating system — but work like Proton Mail.
+The neon glow is the skin, not the mechanics.
+Everything below is aesthetic and optional; the core email flow (read, reply, file, delete) must always be instant.
+
+---
+
+## Layout Grid
+
+| Screen       | Cyberpunk Concept          | Behavior                                                                 |
+|:-------------|:---------------------------|:-------------------------------------------------------------------------|
+| **Inbox**    | The Data Stream            | Emails flow in like data packets. Unread emails pulse with neon light.   |
+|              |                            | Opening one "decrypts" it — the glow stabilizes.                         |
+| **Folders**  | Secure Vaults              | Each folder is a locked vault. Navigating there shows: *"Vault Accessed."* |
+| **Sent**     | Transmission Log           | You sent the data. "Transmission Complete" energy.                       |
+| **Trash**    | The Void                   | Where data gets deleted from the grid. Dragging an email there erases it. |
+|              |                            | Restoring it is "retrieving from the void."                              |
+| **Drafts**   | The Lab                    | Still under construction. Glitching code, half-formed structures.        |
+
+---
+
+## Navigation Grid
+
+| Key          | Action                     | Flavor Text                              |
+|:-------------|:---------------------------|:-----------------------------------------|
+| **Arrow Keys** | Move focus between emails  | Digital chirp sound effect               |
+| **Spacebar**   | Open selected email        | *"Decrypting..."*                        |
+| **Enter**      | Reply while reading        | *"Sending transmission."*                |
+| **Drag & Drop** | Move between folders       | Data packet transfer animation           |
+
+---
+
+## Visual Design Grid
+
+| Element        | Concept                | Description                                                                 |
+|:---------------|:-----------------------|:----------------------------------------------------------------------------|
+| **Sidebar**    | Neural Interface       | A dark panel with neon accents. Labels look like system commands.            |
+| **Email Cards** | Data Packets           | Each email is a sleek panel with sender's name and subject. Unread panels glow. |
+| **Compose**    | The Terminal           | A command-line-inspired editor. Subject line = mission briefing.             |
+| **Stickers**   | Glitch Art             | Inserting a sticker looks like a data corruption effect or hologram.         |
+
+---
+
+## Micro-interactions Grid
+
+| Action         | Sound / Effect         | Trigger Context                          |
+|:---------------|:-----------------------|:-----------------------------------------|
+| Reading        | Digital hum            | Like powering up a device                |
+| Replying       | Transmission beep      | Like sending a secure message            |
+| Deleting       | Glitch noise           | Like data corruption                     |
+| Searching      | Scan tone              | Like a scanner locking on                |
+| Composing      | Keyboard click         | Like typing on a mechanical keyboard     |
+| Loading        | Progress bar           | Fills like a system load meter           |
+
+> All sounds default to **off**, toggleable in Settings → Audio.
+> Silent mode is the default for a reason: this is still an email client people use at work.
+
+---
+
+## Audience Grid
+
+| Audience      | Perception                             | Experience                              |
+|:--------------|:---------------------------------------|:----------------------------------------|
+| **Gamers**    | See a world they recognize and enjoy.  | It feels made for them.                 |
+| **Non-Gamers**| See a sleek, futuristic UI.            | Different but still functional.         |
+
+> The neon glow is the skin, not the mechanics.
+> They don't need to understand the metaphor to use it.
+
+---
+
+## References Grid
+
+| Game/Show      | Why It Matters                                                        |
+|:---------------|:----------------------------------------------------------------------|
+| **Cyberpunk 2077** | UIs that feel like hacking tools while staying functional.          |
+| **Blade Runner 2049** | Aesthetic of dark, neon-lit interfaces.                            |
+| **Deus Ex**        | Clean, functional UIs with a high-tech feel.                         |
+
+---
+
+## The One Rule
+
+**Don't overdo the gamification.**
+If reading an email requires too many interactions or animations, we lose the "works just as good as Proton" goal.
+The cyberpunk metaphor stays *visual and occasional,* never *structural.*
