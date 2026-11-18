@@ -124,3 +124,14 @@ CREATE TABLE sync_state (
 CREATE INDEX idx_messages_channel_state ON messages(channel, state);
 CREATE INDEX idx_messages_peer ON messages(peer);
 CREATE INDEX idx_outbox_state ON outbox(state, next_attempt_at);   
+
+[ ] Offline: compose and queue both email and sidequest messages. Zero network.
+[ ] Online: email outbox flushes via SMTP. Appears in provider's Sent.
+[ ] IMAP: connect, fetch inbox, read message, close, reopen — state persists.
+[ ] Two devices: sidequest message A→B via tailcat-rs only. No SMTP.
+[ ] App restart: outbox, identities, sync_state all survive.
+[ ] Eject account: all local data for that account is gone from disk.
+[ ] Kill sidequest worker (simulate panic): email path continues to function.
+[ ] grep -r "telemetry\|analytics\|phone.home\|update.check" src/ returns nothing.
+[ ] #![forbid(unsafe_code)] present.
+[ ] No network calls to any Sidequest-owned host.
