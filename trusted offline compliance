@@ -1,0 +1,79 @@
+┌─────────────────────────────────────────────────────────────┐
+│ TRUSTED (local process, user's machine) │
+│ │
+│ UI → Local SQLite store → Outbox → Workers │
+│ OS keyring (credentials) │
+│ Account data dir (keys, 0600) │
+└──────────────────────────┬──────────────────────────────────┘
+│
+┌────────────┴────────────┐
+│ │
+▼ ▼
+┌────────────────────────┐ ┌────────────────────────────────┐
+│ TRANSPORT-TRUSTED │ │ TRANSPORT-TRUSTED │
+│ (Email path) │ │ (Sidequest path) │
+│ │ │ │
+│ TLS to user's mail │ │ WireGuard encryption │
+│ provider. │ │ (tailcat-rs / tailcat) │
+│ Provider is NOT │ │ DERP bootstrap: metadata │
+│ trusted for privacy. │ │ visible to relay operator. │
+└────────────────────────┘ └────────────────────────────────┘
+
+
+**Not trusted:** mail providers, DERP operators, arbitrary peers, the public internet.
+
+### Design rules (derived from the model)
+
+1. No Sidequest-operated server that can read content, contact graphs, or revoke access.
+2. `tc…` addresses are capabilities. Easy rotate. Never in logs, never in telemetry (there is no telemetry), never in crash reports.
+3. All compose and queue operations work offline. Network failures never corrupt the local store.
+4. Fail closed on protocol parse errors. Never render or execute embedded content from a message without explicit user action.
+5. Eject account = delete that account's SQLite DB, outbox, and Sidequest keys from disk. Irreversible. Confirm with a typed "EJECT" prompt.
+6. The email path and sidequest path share the local store but never share a network connection or a failure mode. If tailcat-rs panics, email still works.
+7. UI copy must be accurate. "Local-first, E2E on Sidequest path, no Sidequest cloud." Never "private email" or "untraceable."
+
+### Residual risks (accepted, documented)
+
+- Peer must be reachable (app running, network available) for Sidequest delivery. Otherwise the message sits in the local outbox indefinitely. This is by design — it's not a mail store.
+- Sharing a `tc…` address publicly is equivalent to publishing a connect capability. The user's problem, not the app's.
+- Device compromise (rooted phone, stolen unlocked laptop) defeats all local protections. FDE is the user's responsibility.
+- The email path is ordinary email. Full stop.
+- tailcat-rs is 2 months old. It may break, change its API, or be abandoned. The email path must never depend on it.
+
+---
+
+## Non-goals (v1)
+
+- No Sidequest-operated relay, mailbox, or directory server.
+- No global user discovery or search.
+- No multi-device sync via any cloud.
+- No OAuth (use app passwords / IMAP credentials only).
+- No guarantee of delivery if a peer never comes online.
+- No E2E encryption on the email path (that's the mail provider's job, or S/MIME, which is v3+ at best).
+- No sound effects, sprite animations, or sticker picker.
+
+---
+
+## Build order
+
+1. Local account + SQLite schema + offline compose (Phase 1)
+2. Email outbox → SMTP worker via `lettre` (Phase 2)
+3. IMAP receive via `async-imap` + local cache (Phase 3)
+4. Sidequest identity + peer book (Phase 4)
+5. Sidequest send/receive via `tailcat-rs` behind a trait (Phase 5)
+6. Unified inbox UI with channel badges (Phase 6)
+7. Hopper launcher integration + CI + tag v0.1.0 (Phase 7)
+
+---
+
+## Acceptance tests
+
+- [ ] Offline: compose and queue both email and Sidequest messages. No network required.
+- [ ] Online: email outbox flushes via SMTP. Message appears in provider's Sent.
+- [ ] Two devices: Sidequest message A→B with only tailcat-rs (no SMTP involved).
+- [ ] App restart: outbox, identities, and local store survive.
+- [ ] Eject account: all local data for that account is gone from disk.
+- [ ] No network calls to any Sidequest-owned host. Only user's mail hosts + DERP (if sidequest path active).
+- [ ] Kill tailcat-rs (simulate panic): email path continues to function.
+- [ ] `grep -r "telemetry\|analytics\|phone.home\|update.check" src/` returns nothing.
+- [ ] `#![forbid(unsafe_code)]` at crate root.   
