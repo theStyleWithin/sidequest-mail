@@ -1,0 +1,117 @@
+
+**Principles:**
+1. Local store is the source of truth for the UI. Network is a sync mechanism.
+2. The two send paths are independent. A message is `channel=email` or `channel=sidequest`. Never both.
+3. Offline compose always works. Delivery happens when the path is open.
+4. No Sidequest backend reads, ranks, or stores any user data.
+5. The owner of this codebase has no mechanism to contact, track, or revoke any user.
+
+---
+
+## Interface Vision
+
+### The One Rule
+
+**The pixel art is the skin, not the mechanics.** The core flow (read → reply → file → delete) must be instant. If a gamification element adds a click or a frame of delay to that flow, it gets cut.
+
+### v1 — Ship this first
+
+| Element | Implementation |
+|---------|---------------|
+| Layout | Two-pane: message list (left) + detail (right). Standard. |
+| Sidebar | Folder list. Pixel font for labels. Unread count as a small badge. |
+| Unread state | Subtle glow or border on the message card. No animation. |
+| Compose | Standard form: To, Subject, Body. "Send" button. |
+| Channel badge | Small icon next to each message: ✉️ (email) or ⚔️ (sidequest). |
+| Status text | Plain, in-character. See copy table below. |
+| Sound | **Off by default.** No sound in v1. |
+| Animations | None. Instant state changes. |
+
+**v1 is functionally identical to a clean, minimal email client with a pixel font and a slightly different color palette.** That's the point. It works, it's fast, it's trustworthy. The aesthetic is a whisper, not a shout.
+
+### v2+ — The full platformer layer
+
+Once v1 is stable and in daily use, layer on:
+
+| Element | Implementation |
+|---------|---------------|
+| Sound effects | 6 distinct retro SFX. Toggle in Settings → Audio. Off by default. |
+| Drag-and-drop | Move messages between folders. Sprite walks across. |
+| Sticker / power-up picker | Insert inline images. "Power-up wheel" UI. |
+| Folder transitions | "Checkpoint accepted!" toast. Subtle, non-blocking. |
+| Trash animation | Message drops into pit. Restore = "grab mid-fall." |
+| Loading | Pixelated health-bar progress. |
+| Compose as "Builder" | Subject = level title. Body = building space. Visual only. |
+
+**Bar:** Shovel Knight and Celeste. Both ship game-feeling UIs that never sacrifice speed. If an interaction feels like it's *in the way* of reading or sending, it doesn't ship.
+
+### Status copy (in-character, always accurate)
+
+| State | Text |
+|-------|------|
+| Queued (offline) | "Side quest accepted — will send when the path is open." |
+| Peer unreachable | "Peer offline or address expired. Still in your outbox." |
+| Sent (email) | "Delivered to post." |
+| Sent (sidequest) | "Reached the peer." |
+| Failed | "The path is blocked. Retry?" |
+
+Never imply a Sidequest message went through a mail server. Never imply "delivered" when it's actually "queued locally."
+
+---
+
+## Threat Model
+
+### What this app protects
+
+| Asset | Guarantee |
+|-------|-----------|
+| Local message store | Readable only by the OS user. SQLite file with `0600` permissions. |
+| Mail credentials | OS keyring only. Never in plaintext config, never in the DB. |
+| Sidequest private keys | Account data dir, `0600`. Never logged, never exported by default. |
+| Sidequest message content (in transit) | WireGuard-encrypted between the two peers. |
+| User autonomy | No Sidequest backend exists. No account to subpoena. No server to DDoS. No mechanism to revoke access. |
+
+### What this app does NOT protect
+
+Be honest in the UI. Do not claim:
+
+- "Private email" — the email path is ordinary email. The mail provider sees everything.
+- "Untraceable" — IP addresses are visible to the mail provider and (on the sidequest path) to DERP operators during bootstrap.
+- "Anonymous" — the `tc…` address is a pseudonym, not anonymity. It's a capability, not a face.
+- "Encrypted at rest" — unless the user enables OS-level full-disk encryption. The SQLite file is plaintext on disk.
+
+### Attackers and their capabilities
+
+| Actor | What they can do | What they can't do |
+|-------|-----------------|-------------------|
+| **Network observer** (ISP, café WiFi) | See that you're connecting to `imap.gmail.com:993` or a DERP relay. See timing, packet size. | Read email content (TLS). Read Sidequest content (WireGuard). |
+| **Mail provider** (email path only) | Read all email content, metadata, timing. Block your connection. Suspend your account. | Affect your Sidequest path. See your local store. |
+| **DERP operator** (sidequest bootstrap) | See that two peers are attempting to connect. See timing. See that a relay is being used. | Read Sidequest payload (WireGuard E2E). Prevent the connection from upgrading to direct. |
+| **Malicious peer** (sidequest path) | Send junk, large payloads, protocol garbage to your `tc…` address. | Read your other messages. Access your local store. See your email credentials. |
+| **Local malware / second OS user** | Read files if the OS account is compromised or the disk is stolen unlocked. | Bypass OS-level permissions if FDE is enabled. |
+| **Sidequest project maintainer (you)** | Nothing. You operate no server. You hold no keys. You have no update channel that could be weaponized. | — |
+
+### Email path — risks and mitigations
+
+| Risk | Mitigation |
+|------|-----------|
+| SMTP/IMAP credentials stolen from disk | OS keyring. No plaintext password files. |
+| Provider reads mail | Inherent to email. Document it. Don't pretend otherwise. |
+| Provider blocks connection (like Google's OAuth review) | Use app passwords + IMAP. No OAuth dependency in v1. |
+| Accidental send via wrong channel | Explicit channel choice in compose UI. Clear badge in thread view. |
+
+### Sidequest path — risks and mitigations
+
+| Risk | Mitigation |
+|------|-----------|
+| `tc…` address is a bearer capability (whoever has it can connect) | UI warns: "Anyone with this address can send you a message." Support rotate/reset. Never log the address. |
+| Unwanted inbound connections | Listener only active while app is running. Optional allow-list (v2+). "Reset address" is one click. |
+| Protocol abuse (spam, huge payloads, malformed data) | Size limit (1 MB default for v1). Parse-safe envelope. Reject unknown version bytes. Rate-limit inbound (max 10 msg/min per peer). |
+| Stale outbox to dead peers | Exponential backoff (30s → 2min → 10min → 1hr). User-visible "failed" state. Manual retry. No infinite silent loops. |
+| **tailcat-rs is v0.1.0 with known bugs** | Isolate the tailcat dependency behind a trait (`SidequestTransport`). If the crate is abandoned or breaks, the email path is unaffected. Pin the version. Monitor the repo. Document that this path is **experimental**. |
+| Public DERP relays are rate-limited and can be revoked | Document: "Public relays are best-effort. For reliable sidequest delivery, run your own DERP server (advanced)." Self-hosted DERP is a documented option, not a requirement. |
+| Key theft from disk | `0600` permissions on key file. Recommend FDE in docs. Eject account = wipe keys. |
+| tailcat-rs stalling bug (concurrent streams) | v1: single-stream only. One message in flight at a time per peer. Do not open concurrent streams until the bug is fixed upstream. |
+
+### Trust boundaries
+   
