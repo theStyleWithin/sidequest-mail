@@ -8,4 +8,4 @@ Your inbox is a side quest to you, not to anyone else. Process it at your own pa
 
 > ⚔️ **Side Quest Accepted!** 📬 Email received!
 
-for more information about the vision and whats important check these documents: the interface vision https://github.com/theStyleWithin/sidequest-mail/blob/main/interface%20vision the messaging roadmap https://github.com/theStyleWithin/sidequest-mail/blob/main/messaging%20roadmap and threat model. some stuff may be repeated in other documents 
+for more information about the vision and whats important check these documents: the interface vision https://github.com/theStyleWithin/sidequest-mail/blob/main/interface%20vision the messaging roadmap https://github.com/theStyleWithin/sidequest-mail/blob/main/messaging%20roadmap and threat model. some stuff may be repeated in other documents https://github.com/theStyleWithin/sidequest-mail/blob/main/threat%20model
