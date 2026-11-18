@@ -1,0 +1,202 @@
+# Sidequest Mail — Messaging Infrastructure Roadmap
+## Goal
+Build a messaging pipeline that is local-first and as server-less as possible.
+
+- **Primary path (real email):** local account → local store → SMTP outbox (when online)
+- **Sidequest path (server-less):** local account → Tailcat peer send (no mail provider, no Sidequest server)
+
+No Sidequest-operated message servers. No required cloud accounts with us. User pace only.
+
+---
+
+## Principles
+1. Local store is source of truth for the UI.
+2. Network is optional and explicit.
+3. Two send modes are first-class:
+   - **Email send** — standard SMTP to any address
+   - **Sidequest send** — Tailcat peer-to-peer when both sides opt in
+4. One local identity can use either mode; modes must not be entangled.
+5. Offline compose always works; delivery happens when possible.
+
+---
+
+## Phase 0 — Definitions (do first)
+Document these in code/docs before implementation:
+
+| Term | Meaning |
+|------|--------|
+| **Local account** | User profile on this device only (display name, keys, optional mail credentials). Not a Sidequest cloud account. |
+| **Mail identity** | Optional IMAP/SMTP credentials bound to a local account |
+| **Sidequest identity** | Stable or ephemeral Tailcat keypair + `tc…` address bound to a local account |
+| **Outbox** | Local queue of pending Email sends and/or pending Tailcat sends |
+| **Conversation** | Local thread; may mix email messages and Sidequest peer messages in the UI, but backends stay separate |
+
+---
+
+## Phase 1 — Local account + store foundation
+**Outcome:** App can create a local account and persist messages with no network.
+
+### 1.1 Local account model
+- Create / switch / eject local account (same spirit as other open-garden apps)
+- Per-account data directory
+- Fields: id, display name, created_at, optional avatar path
+- No password required for local-only use
+
+### 1.2 Message store
+- SQLite (or equivalent) per local account
+- Tables (minimum):
+  - `messages` (id, account_id, direction, channel, peer, subject, body, state, created_at, sent_at, meta_json)
+  - `outbox` (id, message_id, channel, payload_json, attempts, next_attempt_at, state)
+  - `peers` (id, account_id, kind, address, display_name, meta_json)  
+    - `kind`: `email` | `tailcat`
+- Message `channel`: `email` | `sidequest`
+- Message `state`: `draft` | `queued` | `sending` | `sent` | `failed` | `received`
+
+### 1.3 Compose offline
+- User can write a message with no network
+- Save as draft or “send” → lands in outbox immediately
+- UI never blocks on network for compose
+
+**Exit criteria:** Create account, compose, save draft, list local messages — fully offline.
+
+---
+
+## Phase 2 — Email send pipeline (SMTP)
+**Outcome:** Local account with mail credentials can send real email via outbox.
+
+### 2.1 Optional mail identity
+- Attach IMAP/SMTP settings to local account (host, port, user, auth via OS keyring)
+- Validate settings on demand only (user-triggered “Test connection”)
+
+### 2.2 Outbox worker (email)
+- On “Send as email”:
+  1. Persist message as `queued` + outbox row (`channel=email`)
+  2. Worker picks outbox when online (or on manual “Sync/Send now”)
+  3. SMTP submit → mark `sent` or `failed` with error text
+- Offline: stays queued; no error spam
+
+### 2.3 Minimal receive (optional in this phase)
+- Enough IMAP pull to confirm round-trip later; can be stubbed if needed
+- Do not block send pipeline on full IMAP client
+
+**Exit criteria:** Queued email sends deliver when SMTP is reachable; survive app restart.
+
+---
+
+## Phase 3 — Sidequest identity (Tailcat)
+**Outcome:** Local account has a Tailcat identity for server-less peer messaging.
+
+### 3.1 Key + address
+- Generate or load Tailcat keypair per local account
+- Persist private key only in account data dir (restrictive permissions)
+- Derive/display `tc…` address
+- Support:
+  - **Ephemeral** address (session / until reset)
+  - **Stable** address (survives restarts) — default for “my Sidequest address”
+
+### 3.2 Share address out of band
+- Copy address / QR / share sheet
+- No Sidequest directory server
+- User exchanges `tc…` however they want (other chat, in person, etc.)
+
+### 3.3 Peer book
+- Save known peers: display name + `tc…` address
+- Local only; never uploaded
+
+**Exit criteria:** Account shows a Sidequest address; user can copy it and save a peer.
+
+---
+
+## Phase 4 — Sidequest send pipeline (Tailcat)
+**Outcome:** Messages can be sent peer-to-peer with no mail provider and no Sidequest server.
+
+### 4.1 Send path
+- Compose → “Send via Sidequest” (peer selected or `tc…` pasted)
+- Persist message `channel=sidequest`, state `queued`
+- Outbox row `channel=sidequest` with payload (body, optional attachments ref)
+
+### 4.2 Delivery worker
+- When sending:
+  1. Ensure local Tailcat listener/identity is up
+  2. Dial peer `tc…` (DERP bootstrap → prefer direct)
+  3. Transfer message payload on agreed app port/protocol
+  4. Mark `sent` on success; `failed` / retry with backoff on failure
+- Both sides generally need to be reachable; document this clearly in UI
+- Optional later: simple “hold until peer online” retry policy (still local queue only)
+
+### 4.3 Receive path
+- Local Tailcat listener accepts inbound Sidequest messages
+- Write into `messages` as `received`
+- No cloud push; app must be running (or a small user-approved background helper later)
+
+### 4.4 Wire protocol (keep minimal v1)
+- Version byte + JSON or CBOR envelope:
+  - `v`, `from_tc`, `msg_id`, `sent_at`, `subject?`, `body`, `content_type`
+- Optional file transfer v1: metadata first, then bytes (or reuse Tailcat file patterns)
+- Reject unknown versions cleanly
+
+**Exit criteria:** Two local accounts on two machines exchange a Sidequest message with no SMTP and no Sidequest backend.
+
+---
+
+## Phase 5 — Unified messaging UX (still two backends)
+**Outcome:** One inbox/compose experience; infrastructure stays split.
+
+### 5.1 Compose picker
+- To: email address **or** Sidequest peer / `tc…`
+- Explicit channel choice when ambiguous
+- Default: last-used channel for that peer
+
+### 5.2 Thread UI
+- Show email and Sidequest messages in one conversation view when peers are linked locally
+- Badge or icon for channel (`email` vs `sidequest`)
+- Never imply Sidequest messages went through a mail server
+
+### 5.3 Status copy (side-quest tone)
+- Queued offline: “Side quest accepted — will send when the path is open”
+- Peer unreachable: “Peer offline or address expired — still in your outbox”
+- No fake “delivered to server” language for Tailcat
+
+**Exit criteria:** User can live in one UI and understand which path each message used.
+
+---
+
+## Phase 6 — Hardening (after groundwork works)
+- Outbox retry limits, manual retry, dead-letter list
+- Attachment size limits for Tailcat path
+- Key rotation / “reset Sidequest address” (breaks old `tc…` shares by design)
+- Optional: user-run DERP note in docs (not required for v1)
+- Eject account = wipe local mail store + Tailcat keys for that account
+
+---
+
+## Explicit non-goals (v1)
+- No Sidequest-operated relay or mailbox server
+- No global user directory or discovery
+- No multi-device sync via our cloud
+- No replacing SMTP for normal email to arbitrary addresses
+- No guarantee of delivery if peer never comes online (Tailcat is not a mail store)
+
+---
+
+## Suggested build order for Claude
+1. Local account + SQLite message/outbox schema + offline compose  
+2. Email outbox → SMTP worker  
+3. Tailcat identity + peer book + address share  
+4. Tailcat send/receive worker + minimal protocol  
+5. Unified compose/inbox UI wiring  
+
+---
+
+## Acceptance tests (groundwork)
+- [ ] Offline: compose and queue email + Sidequest messages  
+- [ ] Online: email outbox flushes via SMTP  
+- [ ] Two devices: Sidequest message A→B with only Tailcat (no SMTP)  
+- [ ] App restart: outbox and identities survive  
+- [ ] Eject account: local data for that account is gone  
+- [ ] No network calls to any Sidequest-owned host (only user mail hosts + Tailcat/DERP as needed)
+
+---
+
+## One-line summary for implementers
+**Local accounts own everything; email uses SMTP when the user has a mail identity; Sidequest uses Tailcat peer-to-peer when both sides have `tc…` addresses — no Sidequest servers in the middle.**
