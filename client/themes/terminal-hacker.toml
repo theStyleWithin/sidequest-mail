@@ -1,0 +1,9 @@
+name = "Terminal Hacker"
+description = "Green on black, text only."
+font = "monospace"
+[colors]
+background = "#000000"
+surface = "#0a0a0a"
+text = "#33ff33"
+accent = "#00cc00"
+unread = "#ffffff"

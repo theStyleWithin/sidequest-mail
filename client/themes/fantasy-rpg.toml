@@ -1,0 +1,14 @@
+name = "Fantasy RPG"
+description = "Parchment, ink and gold. Mail is a quest log."
+font = "serif"
+[colors]
+background = "#2b1d12"
+surface = "#4a3320"
+text = "#f1e3c6"
+accent = "#d4a017"
+unread = "#c0392b"
+[labels]
+inbox = "Quest Log"
+sent = "Dispatched Ravens"
+compose = "New Quest"
+archive = "Vault"
