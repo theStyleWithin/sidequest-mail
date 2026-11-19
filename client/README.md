@@ -11,6 +11,7 @@ user-owned data, interoperable by default.
 
 - `docs/`  – vision, principles, decisions (see `docs/PRINCIPLES.md`)
 - `src/`   – Rust core (`store`, `theme`)
+- `ui/`    – desktop UI (egui): accounts, folders, message list, reader, compose, theme switcher
 - `themes/` – swappable TOML themes
 - `tests/` – tests
 
@@ -19,3 +20,13 @@ user-owned data, interoperable by default.
 1. Decide what the project actually is and fill in `docs/VISION.md`.
 2. Pick a stack and add build/test commands here.
 3. Choose a license (none added yet on purpose).
+
+## Run the UI (demo data)
+
+```bash
+cargo run -p garden_ui
+GARDEN_THEME=fantasy-rpg cargo run -p garden_ui   # start in another theme
+```
+
+On Linux you need the usual X11/Wayland and OpenGL libraries. The UI shows demo
+messages only; IMAP sync is not built yet.
