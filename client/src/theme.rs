@@ -51,6 +51,31 @@ impl Theme {
     }
 }
 
+/// Parse `#RRGGBB` into bytes.
+pub fn hex_to_rgb(hex: &str) -> Option<[u8; 3]> {
+    if !is_hex(hex) {
+        return None;
+    }
+    let n = |i: usize| u8::from_str_radix(&hex[i..i + 2], 16).ok();
+    Some([n(1)?, n(3)?, n(5)?])
+}
+
+impl Labels {
+    /// Game-style label if the theme has one, otherwise the plain word.
+    pub fn inbox_or<'a>(&'a self, plain: &'a str) -> &'a str {
+        self.inbox.as_deref().unwrap_or(plain)
+    }
+    pub fn sent_or<'a>(&'a self, plain: &'a str) -> &'a str {
+        self.sent.as_deref().unwrap_or(plain)
+    }
+    pub fn compose_or<'a>(&'a self, plain: &'a str) -> &'a str {
+        self.compose.as_deref().unwrap_or(plain)
+    }
+    pub fn archive_or<'a>(&'a self, plain: &'a str) -> &'a str {
+        self.archive.as_deref().unwrap_or(plain)
+    }
+}
+
 /// Built-in themes, embedded so the app works with no files and no network.
 pub const BUILTIN: &[(&str, &str)] = &[
     ("synthwave", include_str!("../themes/synthwave.toml")),
@@ -71,6 +96,16 @@ mod tests {
         for (id, src) in BUILTIN {
             Theme::parse(src).unwrap_or_else(|e| panic!("{id}: {e}"));
         }
+    }
+
+    #[test]
+    fn hex_parses_and_labels_fall_back() {
+        assert_eq!(hex_to_rgb("#ff8000"), Some([255, 128, 0]));
+        assert_eq!(hex_to_rgb("ff8000"), None);
+        let rpg = Theme::parse(BUILTIN[1].1).unwrap();
+        assert_eq!(rpg.labels.inbox_or("Inbox"), "Quest Log");
+        let plain = Theme::parse(BUILTIN[6].1).unwrap();
+        assert_eq!(plain.labels.inbox_or("Inbox"), "Inbox");
     }
 
     #[test]
