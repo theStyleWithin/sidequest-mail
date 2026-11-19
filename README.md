@@ -1,137 +1,85 @@
-# Sidequest Mail — Architecture & Trust
+# Sidequest Mail
 
 > Your inbox is not a raid boss. Treat it like a side quest.
 
 No account. No telemetry. No update server. No ban. MIT.
 
----
+Sidequest Mail is a lightweight, offline-first email client manager written in
+Rust. Your mail lives on your device, in open formats, and keeps working with no
+network. There is no Sidequest account and no Sidequest server, so there is
+nothing for anyone, including the author, to ban you from.
 
-## Architecture
+> **Status: early.** The Rust core (local store and themes) exists. IMAP sync,
+> sending, and the UI are not built yet.
 
-Two independent send paths. One local store. No Sidequest-operated server.
-   
-┌─────────────────────────────────────────────────┐
-│ Local Account (per-device, no cloud identity) │
-│ │
-│ ┌───────────┐ ┌──────────────────────┐ │
-│ │ SQLite DB │ │ Outbox (local queue) │ │
-│ └───────────┘ └────────┬─────────────┘ │
-│ │ │
-│ ┌─────────────┴─────────────┐ │
-│ │ │ │
-│ ▼ ▼ │
-│ ┌────────────────┐ ┌────────────────┐│
-│ │ Email Worker │ │ Sidequest Worker││
-│ │ (SMTP/IMAP) │ │ (Tailcat P2P) ││
-│ └───────┬────────┘ └───────┬────────┘│
-└─────────────┼───────────────────────────┼────────┘
-│ │
-▼ ▼
-User's mail provider Peer's device
-(Gmail, Fastmail, (via WireGuard tunnel,
-any IMAP/SMTP host) DERP fallback)
+## How it works
 
-# Sidequest Mail — Messaging Infrastructure Roadmap
+```
+ your device
+ ┌──────────────────────────────────────────┐
+ │  Local store (SQLite)   Outbox (offline) │
+ │            │                  │          │
+ │            └────────┬─────────┘          │
+ │                     ▼                    │
+ │              Email worker                │
+ │               (IMAP / SMTP)              │
+ └─────────────────────┼────────────────────┘
+                       ▼
+          your mail provider
+   (Proton Mail via Bridge, Gmail, any IMAP/SMTP host)
+```
 
-> See [Architecture & Trust](./architecture%20and%20trust) for threat model, design rules, and non-goals.
+- **Local store is the source of truth.** Every account is mirrored to your
+  device. If a provider closes your address, your history, contacts, and search
+  stay with you, and moving to another provider is a settings change.
+- **Offline always works.** Compose and queue with no network; mail is sent when
+  a connection returns.
+- **Open formats.** Original messages are kept as raw MIME in SQLite. Export is
+  always possible.
 
-## Goal
+## Who delivers your mail
 
-Local-first messaging with two independent send paths. No Sidequest-operated server.
+Until peer-to-peer sending exists, **your email provider delivers your mail**.
+It sends and receives it, can see unencrypted messages on its servers, and can
+suspend your address. Sidequest Mail never routes anything through the author or
+any server the author runs, and it will always show which provider delivers each
+account and how each message travelled. See [client/docs/VISION.md](client/docs/VISION.md).
 
-- **Email path:** local store → IMAP in / SMTP out (user's mail provider)
-- **Sidequest path (experimental):** local store → tailcat-rs peer-to-peer (no mail provider)
+## Roadmap
 
-The two paths share a local SQLite store but never share a network connection or a failure mode.
+1. **Phase 1, email client manager (now).** Sign in to existing accounts and
+   manage them in one place. Proton Mail through Bridge first (plain IMAP/SMTP,
+   paid Proton plan required), then Gmail with an app password, then Gmail OAuth.
+2. **Phase 2, peer-to-peer sending (later).** An optional direct path between
+   people who both run the app, with no mail provider involved. Planned, not
+   started. It stays fully independent of the email path, so a failure in one
+   cannot affect the other.
 
----
+Details and build order: [client/docs/PLAN.md](client/docs/PLAN.md).
+
+## Themes
+
+The interface is swappable, with game-inspired themes as plain TOML files:
+synthwave, fantasy RPG, retro console, terminal hacker, cyberpunk, kawaii boba
+tea, and a quiet minimalist default. See [client/themes/](client/themes/).
+
+## Build and test
+
+```bash
+cd client
+cargo test
+```
 
 ## Principles
 
-1. Local store is the source of truth. Network is a sync mechanism.
-2. The two paths are independent. `channel=email` or `channel=sidequest`. Never both.
-3. Offline compose always works. Delivery happens when the path is open.
-4. If tailcat-rs panics, the email path is unaffected. (Trait isolation — see Phase 4.)
-5. No OAuth in v1. App passwords + IMAP/SMTP credentials only.
+- No account, no telemetry, no update server, no ban.
+- Local-first and offline-first.
+- Small auditable core; themes and game-style features are an optional layer.
+- Honest about what depends on third parties (your provider) and what does not.
 
----
+The original architecture and threat-model notes are kept in
+[brainstorm/architecture-and-trust.md](brainstorm/architecture-and-trust.md).
 
-## Phase 0 — Definitions
+## License
 
-| Term | Meaning |
-|------|---------|
-| **Local account** | Per-device profile. Display name, optional mail credentials, optional sidequest keypair. Not a cloud identity. |
-| **Mail identity** | IMAP/SMTP host, port, username. Password in OS keyring. |
-| **Sidequest identity** | tailcat-rs keypair + `tc…` address. Stored in account data dir, `0600`. |
-| **Outbox** | Local queue of pending sends. Rows reference a `messages` row + `channel`. |
-| **Conversation** | Local thread. May mix channels in the UI. Backends stay separate. |
-
----
-
-## Phase 1 — Local account + store
-
-**Outcome:** App creates a local account, persists messages, composes offline. No network.
-
-### 1.1 Account model
-- Create / switch / eject. Per-account data directory.
-- Fields: `id`, `display_name`, `created_at`, optional `avatar_path`.
-- No password for local-only use.
-
-### 1.2 SQLite schema
-
-```sql
--- One DB per local account: {data_dir}/{account_id}/mail.db
-
-CREATE TABLE messages (
-    id          INTEGER PRIMARY KEY,
-    direction   TEXT NOT NULL,       -- 'in' | 'out'
-    channel     TEXT NOT NULL,       -- 'email' | 'sidequest'
-    peer        TEXT,                -- email address or tc… address
-    subject     TEXT,
-    body_html   TEXT,
-    body_text   TEXT,
-    state       TEXT NOT NULL,       -- 'draft'|'queued'|'sending'|'sent'|'failed'|'received'
-    created_at  TEXT NOT NULL,
-    sent_at     TEXT,
-    error       TEXT,                -- last error text if state='failed'
-    meta_json   TEXT                 -- MIME headers, flags, etc.
-);
-
-CREATE TABLE outbox (
-    id              INTEGER PRIMARY KEY,
-    message_id      INTEGER NOT NULL REFERENCES messages(id),
-    channel         TEXT NOT NULL,
-    payload_json    TEXT,            -- channel-specific send data
-    attempts        INTEGER DEFAULT 0,
-    next_attempt_at TEXT,
-    state           TEXT NOT NULL    -- 'pending'|'in_flight'|'done'|'dead'
-);
-
-CREATE TABLE peers (
-    id           INTEGER PRIMARY KEY,
-    kind         TEXT NOT NULL,      -- 'email' | 'sidequest'
-    address      TEXT NOT NULL,
-    display_name TEXT,
-    meta_json    TEXT
-);
-
-CREATE TABLE sync_state (
-    mailbox       TEXT PRIMARY KEY,  -- e.g. 'INBOX', 'Sent'
-    last_uid      INTEGER DEFAULT 0,
-    last_sync_at  TEXT
-);
-
-CREATE INDEX idx_messages_channel_state ON messages(channel, state);
-CREATE INDEX idx_messages_peer ON messages(peer);
-CREATE INDEX idx_outbox_state ON outbox(state, next_attempt_at);   
-
-[ ] Offline: compose and queue both email and sidequest messages. Zero network.
-[ ] Online: email outbox flushes via SMTP. Appears in provider's Sent.
-[ ] IMAP: connect, fetch inbox, read message, close, reopen — state persists.
-[ ] Two devices: sidequest message A→B via tailcat-rs only. No SMTP.
-[ ] App restart: outbox, identities, sync_state all survive.
-[ ] Eject account: all local data for that account is gone from disk.
-[ ] Kill sidequest worker (simulate panic): email path continues to function.
-[ ] grep -r "telemetry\|analytics\|phone.home\|update.check" src/ returns nothing.
-[ ] #![forbid(unsafe_code)] present.
-[ ] No network calls to any Sidequest-owned host.
+MIT.
