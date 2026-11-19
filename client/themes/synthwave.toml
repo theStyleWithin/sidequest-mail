@@ -1,0 +1,9 @@
+name = "Synthwave"
+description = "Neon sunset: deep purple, hot pink and cyan."
+font = "monospace"
+[colors]
+background = "#1a1033"
+surface = "#2a1b4d"
+text = "#f4e9ff"
+accent = "#ff3cac"
+unread = "#00e5ff"

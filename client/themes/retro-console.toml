@@ -1,0 +1,12 @@
+name = "Retro Console"
+description = "Chunky 8/16-bit handheld palette."
+font = "monospace"
+[colors]
+background = "#0f380f"
+surface = "#306230"
+text = "#9bbc0f"
+accent = "#8bac0f"
+unread = "#e0f8d0"
+[labels]
+inbox = "Inbox"
+compose = "Press Start"

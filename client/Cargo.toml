@@ -1,0 +1,15 @@
+[package]
+name = "garden_core"
+version = "0.1.0"
+edition = "2024"
+description = "Local-first email client core: encrypted-at-rest-ready store and swappable themes"
+
+[dependencies]
+rusqlite = { version = "0.32", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

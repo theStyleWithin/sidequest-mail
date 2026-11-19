@@ -1,0 +1,9 @@
+name = "Minimalist"
+description = "Quiet and plain. The default."
+font = "sans-serif"
+[colors]
+background = "#ffffff"
+surface = "#f4f4f4"
+text = "#111111"
+accent = "#2563eb"
+unread = "#111111"

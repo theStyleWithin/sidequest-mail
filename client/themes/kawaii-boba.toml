@@ -1,0 +1,9 @@
+name = "Kawaii Boba Tea"
+description = "Soft pinks, milk-tea browns and mint."
+font = "sans-serif"
+[colors]
+background = "#fff0f5"
+surface = "#ffe0ec"
+text = "#5a3a31"
+accent = "#ff8fb1"
+unread = "#7fd8be"

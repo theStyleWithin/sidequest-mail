@@ -1,0 +1,9 @@
+name = "Cyberpunk"
+description = "Rain-soaked yellow and magenta on near-black."
+font = "monospace"
+[colors]
+background = "#0b0b12"
+surface = "#16161f"
+text = "#f5f5f5"
+accent = "#fcee0a"
+unread = "#ff2a6d"
